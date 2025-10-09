@@ -1,5 +1,5 @@
 <?php
-
+    
 class VeiculoModel {
     private $pdo;
 
@@ -17,6 +17,13 @@ class VeiculoModel {
         $sql = "SELECT * FROM veiculos WHERE id = :id";
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute(['id' => $id]);
+        return $stmt->fetch();
+    }
+
+    public function findByPlaca($placa) {
+        $sql = "SELECT id FROM veiculos WHERE placa = :placa";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute(['placa' => $placa]);
         return $stmt->fetch();
     }
 

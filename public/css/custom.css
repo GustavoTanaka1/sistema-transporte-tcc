@@ -1,0 +1,92 @@
+/* 1. Importando uma fonte profissional (Poppins) do Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+/* 2. Definindo uma paleta de cores customizada e outras variáveis */
+:root {
+    --primary-accent: #007bff; /* Um azul vibrante como cor de destaque */
+    --primary-accent-hover: #0056b3;
+    --dark-bg: #212529; /* O fundo escuro da navbar */
+    --content-bg: #f4f7f6; /* Um cinza bem claro para o fundo do conteúdo */
+    --card-bg: #ffffff;
+    --text-color: #343a40;
+    --text-muted: #6c757d;
+    --border-color: #dee2e6;
+    --default-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    --default-radius: 8px;
+}
+
+/* 3. Estilos globais e tipografia */
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: var(--content-bg);
+    color: var(--text-color);
+    -webkit-font-smoothing: antialiased; /* Deixa a fonte mais suave */
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* 4. Customizando a Navbar */
+.navbar {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* 5. Customizando os Cards - Efeito de profundidade */
+.card {
+    border: none;
+    border-radius: var(--default-radius);
+    box-shadow: var(--default-shadow);
+    transition: all 0.3s ease-in-out;
+}
+.card:hover {
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+}
+.card-header {
+    background-color: transparent;
+    border-bottom: 1px solid var(--border-color);
+    font-weight: 600;
+}
+
+/* 6. Customizando Botões - Mais interatividade */
+.btn {
+    border-radius: var(--default-radius);
+    font-weight: 500;
+    transition: all 0.2s ease-in-out;
+}
+.btn-primary {
+    background-color: var(--primary-accent);
+    border-color: var(--primary-accent);
+}
+.btn-primary:hover {
+    background-color: var(--primary-accent-hover);
+    border-color: var(--primary-accent-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0, 123, 255, 0.3);
+}
+
+/* 7. Customizando Tabelas */
+.table {
+    border-radius: var(--default-radius);
+    overflow: hidden; /* Garante que o radius seja aplicado nos cantos */
+}
+.table thead {
+    background-color: var(--dark-bg);
+    color: white;
+}
+.table tbody tr:hover {
+    background-color: #f8f9fa;
+    cursor: pointer;
+}
+
+/* 8. Customizando Formulários */
+.form-control, .form-select {
+    border-radius: var(--default-radius);
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+.form-control:focus, .form-select:focus {
+    border-color: var(--primary-accent);
+    box-shadow: 0 0 0 0.25rem rgba(0, 123, 255, 0.25);
+}
+
+/* 9. Títulos e Hierarquia */
+h1, h2, h3, h4, h5, h6 {
+    font-weight: 600;
+}

@@ -1,6 +1,7 @@
 <?php
 
 require_once PROJECT_ROOT . '/app/models/FuncionarioModel.php';
+require_once PROJECT_ROOT . '/app/core/FlashMessage.php';
 
 class FuncionarioController {
     private $funcionarioModel;
@@ -22,24 +23,44 @@ class FuncionarioController {
         require_once PROJECT_ROOT . '/app/views/form_funcionario.php';
     }
 
+    private function validarDados($dados, $id = null) {
+        $errors = [];
+        if (empty($dados['nome'])) {
+            $errors[] = "O campo Nome é obrigatório.";
+        }
+        if (empty($dados['cargo'])) {
+            $errors[] = "O campo Cargo é obrigatório.";
+        }
+        if (empty($dados['cpf'])) {
+            $errors[] = "O campo CPF é obrigatório.";
+        } else {
+            $cpfExistente = $this->funcionarioModel->findByCpf($dados['cpf']);
+            if ($cpfExistente && $cpfExistente['id'] != $id) {
+                $errors[] = "O CPF informado já está cadastrado no sistema.";
+            }
+        }
+        return $errors;
+    }
+
     public function store() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $dados = [
-                'nome' => $_POST['nome'],
-                'cargo' => $_POST['cargo'],
-                'cpf' => $_POST['cpf'],
-                'telefone' => $_POST['telefone'],
-                'status' => $_POST['status']
-            ];
+            $dados = $_POST;
+            $errors = $this->validarDados($dados);
 
-            $cpfExistente = $this->funcionarioModel->findByCpf($dados['cpf']);
-            if ($cpfExistente) {
-                echo "Erro: CPF já cadastrado.";
+            if (!empty($errors)) {
+                FlashMessage::set(implode('<br>', $errors), 'danger');
+                $_SESSION['form_data'] = $dados;
+                header('Location: ' . BASE_URL . '/funcionario/create');
                 exit();
             }
-
-            $this->funcionarioModel->create($dados);
+            
+            if ($this->funcionarioModel->create($dados)) {
+                FlashMessage::set('Funcionário cadastrado com sucesso!');
+            } else {
+                FlashMessage::set('Erro ao cadastrar o funcionário.', 'danger');
+            }
             header('Location: ' . BASE_URL . '/funcionario');
+            exit();
         }
     }
 
@@ -50,20 +71,33 @@ class FuncionarioController {
 
     public function update($id) {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $dados = [
-                'nome' => $_POST['nome'],
-                'cargo' => $_POST['cargo'],
-                'cpf' => $_POST['cpf'],
-                'telefone' => $_POST['telefone'],
-                'status' => $_POST['status']
-            ];
-            $this->funcionarioModel->update($id, $dados);
+            $dados = $_POST;
+            $errors = $this->validarDados($dados, $id);
+
+            if (!empty($errors)) {
+                FlashMessage::set(implode('<br>', $errors), 'danger');
+                $_SESSION['form_data'] = $dados;
+                header('Location: ' . BASE_URL . '/funcionario/edit/' . $id);
+                exit();
+            }
+
+            if ($this->funcionarioModel->update($id, $dados)) {
+                FlashMessage::set('Funcionário atualizado com sucesso!');
+            } else {
+                FlashMessage::set('Erro ao atualizar o funcionário.', 'danger');
+            }
             header('Location: ' . BASE_URL . '/funcionario');
+            exit();
         }
     }
 
     public function destroy($id) {
-        $this->funcionarioModel->delete($id);
+        if ($this->funcionarioModel->delete($id)) {
+            FlashMessage::set('Funcionário inativado com sucesso!');
+        } else {
+            FlashMessage::set('Erro ao inativar o funcionário.', 'danger');
+        }
         header('Location: ' . BASE_URL . '/funcionario');
+        exit();
     }
 }

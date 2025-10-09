@@ -1,46 +1,59 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <title>Gerenciar Funcionários</title>
-</head>
-<body>
-    <h1>Gerenciamento de Funcionários</h1>
-    <a href="<?= BASE_URL ?>/dashboard">Voltar ao Dashboard</a>
-    <a href="<?= BASE_URL ?>/funcionario/create" style="float: right;">Adicionar Novo Funcionário</a>
+<?php 
+$pageTitle = "Gerenciar Funcionários";
+require_once 'partials/header.php'; 
+?>
 
-    <table border="1" width="100%">
-        <thead>
-            <tr>
-                <th>Nome</th>
-                <th>Cargo</th>
-                <th>CPF</th>
-                <th>Telefone</th>
-                <th>Status</th>
-                <th>Ações</th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php if (!empty($funcionarios)): ?>
-                <?php foreach ($funcionarios as $funcionario): ?>
-                    <tr>
-                        <td><?= htmlspecialchars($funcionario['nome']) ?></td>
-                        <td><?= htmlspecialchars($funcionario['cargo']) ?></td>
-                        <td><?= htmlspecialchars($funcionario['cpf']) ?></td>
-                        <td><?= htmlspecialchars($funcionario['telefone']) ?></td>
-                        <td><?= ucfirst(htmlspecialchars($funcionario['status'])) ?></td>
-                        <td>
-                            <a href="<?= BASE_URL ?>/funcionario/edit/<?= $funcionario['id'] ?>">Editar</a>
-                            <a href="<?= BASE_URL ?>/funcionario/destroy/<?= $funcionario['id'] ?>" onclick="return confirm('Tem certeza que deseja inativar este funcionário?');">Excluir</a>
-                        </td>
-                    </tr>
-                <?php endforeach; ?>
-            <?php else: ?>
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <a href="<?= BASE_URL ?>/funcionario/create" class="btn btn-primary ms-auto">
+        <i class="bi bi-plus-lg me-2"></i> Adicionar Novo Funcionário
+    </a>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        Lista de Funcionários
+    </div>
+    <div class="card-body">
+        <table id="tabela-dados" class="table table-striped table-hover align-middle">
+            <thead class="table-dark">
                 <tr>
-                    <td colspan="6">Nenhum funcionário cadastrado.</td>
+                    <th>Nome</th>
+                    <th>Cargo</th>
+                    <th>CPF</th>
+                    <th>Status</th>
+                    <th class="text-end">Ações</th>
                 </tr>
-            <?php endif; ?>
-        </tbody>
-    </table>
-</body>
-</html>
+            </thead>
+            <tbody>
+                <?php if (!empty($funcionarios)): ?>
+                    <?php foreach ($funcionarios as $funcionario): ?>
+                        <tr>
+                            <td><?= htmlspecialchars($funcionario['nome']) ?></td>
+                            <td><?= htmlspecialchars($funcionario['cargo']) ?></td>
+                            <td><?= htmlspecialchars($funcionario['cpf']) ?></td>
+                            <td>
+                                <span class="badge <?= $funcionario['status'] == 'ativo' ? 'bg-success' : 'bg-danger' ?>">
+                                    <?= ucfirst(htmlspecialchars($funcionario['status'])) ?>
+                                </span>
+                            </td>
+                            <td class="text-end">
+                                <a href="<?= BASE_URL ?>/funcionario/edit/<?= $funcionario['id'] ?>" class="btn btn-sm btn-outline-warning" title="Editar">
+                                    <i class="bi bi-pencil-square"></i>
+                                </a>
+                                <a href="<?= BASE_URL ?>/funcionario/destroy/<?= $funcionario['id'] ?>" class="btn btn-sm btn-outline-danger" title="Inativar" onclick="return confirm('Tem certeza?');">
+                                    <i class="bi bi-trash3"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
+                <?php else: ?>
+                    <tr>
+                        <td colspan="5" class="text-center">Nenhum funcionário cadastrado.</td>
+                    </tr>
+                <?php endif; ?>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<?php require_once 'partials/footer.php'; ?>
