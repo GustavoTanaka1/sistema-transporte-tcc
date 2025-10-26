@@ -1,37 +1,34 @@
 <?php
 
-require_once PROJECT_ROOT . '/app/models/UsuarioModel.php';
+require_once PROJECT_ROOT . '/app/dao/UsuarioDAO.php';
 
 class LoginController {
-    
-    public function index() {
-        require_once PROJECT_ROOT . '/app/views/login.php';
-    }
 
-    public function autenticar() {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $login = $_POST['login'] ?? null;
-            $senha = $_POST['senha'] ?? null;
+	public function index() {
+		require_once PROJECT_ROOT . '/app/views/login.php';
+	}
 
-            $usuarioModel = new UsuarioModel();
-            $usuario = $usuarioModel->findByLogin($login);
+	public function autenticar() {
+		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+			$usuarioDAO = new UsuarioDAO();
+			$usuario = $usuarioDAO->autenticar($_POST['login'], $_POST['senha']);
 
-            if ($usuario && password_verify($senha, $usuario['senha_hash'])) {
-                $_SESSION['usuario_id'] = $usuario['id'];
-                $_SESSION['usuario_login'] = $usuario['login'];
-                header('Location: ' . BASE_URL . '/dashboard');
-                exit();
-            } else {
-                header('Location: ' . BASE_URL);
-                exit();
-            }
-        }
-    }
+			if ($usuario) {
+				$_SESSION['usuario_id'] = $usuario['id'];
+				$_SESSION['usuario_login'] = $usuario['login'];
+				header('Location: ' . BASE_URL . '/dashboard');
+				exit();
+			} else {
+				header('Location: ' . BASE_URL);
+				exit();
+			}
+		}
+	}
 
-    public function logout() {
-        session_start();
-        session_destroy();
-        header('Location: ' . BASE_URL);
-        exit();
-    }
+	public function logout() {
+		session_start();
+		session_destroy();
+		header('Location: ' . BASE_URL);
+		exit();
+	}
 }

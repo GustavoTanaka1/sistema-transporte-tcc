@@ -1,0 +1,45 @@
+<?php 
+$pageTitle = "Tipos de Viagem";
+require_once 'partials/header.php'; 
+?>
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+	<a href="<?= BASE_URL ?>/tipoViagem/create" class="btn btn-primary ms-auto">
+		<i class="bi bi-plus-lg me-2"></i> Adicionar Novo Tipo
+	</a>
+</div>
+
+<div class="card">
+	<div class="card-header">
+		Lista de Tipos de Viagem
+	</div>
+	<div class="card-body">
+		<table id="tabela-dados" class="table table-striped table-hover align-middle">
+			<thead class="table-dark">
+				<tr>
+					<th>#</th>
+					<th>Nome</th>
+					<th class="text-end">Ações</th>
+				</tr>
+			</thead>
+			<tbody>
+				<?php foreach ($tiposViagem as $tipo): ?>
+					<tr>
+						<td><?= $tipo['id'] ?></td>
+						<td><?= htmlspecialchars($tipo['nome']) ?></td>
+						<td class="text-end">
+							<a href="<?= BASE_URL ?>/tipoViagem/edit/<?= $tipo['id'] ?>" class="btn btn-sm btn-outline-warning" title="Editar">
+								<i class="bi bi-pencil-square"></i>
+							</a>
+							<a href="<?= BASE_URL ?>/tipoViagem/destroy/<?= $tipo['id'] ?>" class="btn btn-sm btn-outline-danger" title="Excluir" onclick="return confirm('Tem certeza?');">
+								<i class="bi bi-trash3"></i>
+							</a>
+						</td>
+					</tr>
+				<?php endforeach; ?>
+			</tbody>
+		</table>
+	</div>
+</div>
+
+<?php require_once 'partials/footer.php'; ?>
