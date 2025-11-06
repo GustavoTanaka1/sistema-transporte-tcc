@@ -7,6 +7,8 @@ require_once PROJECT_ROOT . '/app/dao/BoletimDAO.php';
 require_once PROJECT_ROOT . '/app/dao/TipoParadaDAO.php';
 require_once PROJECT_ROOT . '/app/dao/ApontamentoDAO.php';
 require_once PROJECT_ROOT . '/app/dao/ViagemProgramadaDAO.php';
+require_once PROJECT_ROOT . '/app/dao/RevisaoDAO.php';
+require_once PROJECT_ROOT . '/app/dao/RotaDAO.php';
 require_once PROJECT_ROOT . '/app/core/FlashMessage.php';
 
 class MobileController {
@@ -18,6 +20,8 @@ class MobileController {
 	private $tipoParadaDAO;
 	private $apontamentoDAO;
 	private $viagemProgramadaDAO;
+	private $rotaDAO;
+	private $revisaoDAO;
 
 	public function __construct() {
 		$this->usuarioDAO = new UsuarioDAO();
@@ -27,6 +31,8 @@ class MobileController {
 		$this->tipoParadaDAO = new TipoParadaDAO();
 		$this->apontamentoDAO = new ApontamentoDAO();
 		$this->viagemProgramadaDAO = new ViagemProgramadaDAO();
+		$this->rotaDAO = new RotaDAO();
+		$this->revisaoDAO = new RevisaoDAO();
 
 		$action = $_GET['url'] ?? '';
 		$actionParts = explode('/', $action);
@@ -390,5 +396,98 @@ class MobileController {
 		session_destroy();
 		header('Location: ' . BASE_URL . '/mobile');
 		exit();
+	}
+
+	public function apontarRota() {
+		if (!isset($_SESSION['boletim_id'])) {
+			FlashMessage::set('Abra o boletim primeiro.', 'warning');
+			header('Location: ' . BASE_URL . '/mobile/home');
+			exit();
+		}
+
+		$atividadeAtual = $this->getCurrentOpenActivity();
+		if (!$atividadeAtual || $atividadeAtual['tipo_apontamento_nome'] != 'Viagem Programada') {
+			FlashMessage::set('Você precisa estar em uma viagem para apontar uma rota/entrega.', 'warning');
+			header('Location: ' . BASE_URL . '/mobile/home');
+			exit();
+		}
+		
+		$apontamentoViagemId = $atividadeAtual['id']; 
+		require_once PROJECT_ROOT . '/app/views/mobile/apontar_rota.php';
+	}
+
+	public function salvarRota() {
+		if (!isset($_SESSION['boletim_id'])) {
+			FlashMessage::set('Sessão expirada.', 'danger');
+			header('Location: ' . BASE_URL . '/mobile/home');
+			exit();
+		}
+		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+			$boletimId = $_SESSION['boletim_id'];
+			$dados = [
+				'boletim_id' => $boletimId,
+				'apontamento_id' => $_POST['apontamento_id'],
+				'destino' => $_POST['destino'],
+				'status_entrega' => $_POST['status_entrega'],
+				'observacao' => $_POST['observacao'] ?? null
+			];
+
+			if (empty($dados['destino'])) {
+				FlashMessage::set('O campo Destino/Local é obrigatório.', 'danger');
+				header('Location: ' . BASE_URL . '/mobile/apontarRota');
+				exit();
+			}
+
+			if ($this->rotaDAO->create($dados)) {
+				FlashMessage::set('Rota/Entrega registrada com sucesso!', 'info');
+			} else {
+				FlashMessage::set('Erro ao registrar a rota/entrega.', 'danger');
+			}
+			header('Location: ' . BASE_URL . '/mobile/home');
+			exit();
+		}
+	}
+
+	public function apontarRevisao() {
+		if (!isset($_SESSION['boletim_id'])) {
+			FlashMessage::set('Abra o boletim primeiro.', 'warning');
+			header('Location: ' . BASE_URL . '/mobile/home');
+			exit();
+		}
+		$boletimAberto = $this->boletimDAO->getById($_SESSION['boletim_id']);
+		require_once PROJECT_ROOT . '/app/views/mobile/apontar_revisao.php';
+	}
+
+	public function salvarRevisao() {
+		if (!isset($_SESSION['boletim_id'])) {
+			FlashMessage::set('Sessão expirada.', 'danger');
+			header('Location: ' . BASE_URL . '/mobile/home');
+			exit();
+		}
+		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+			$boletim = $this->boletimDAO->getById($_SESSION['boletim_id']);
+			$dados = [
+				'boletim_id' => $_SESSION['boletim_id'],
+				'veiculo_id' => $boletim['veiculo_id'],
+				'km_veiculo' => $_POST['km_veiculo'],
+				'tipo_revisao' => $_POST['tipo_revisao'],
+				'descricao_problema' => $_POST['descricao_problema'],
+				'urgencia' => $_POST['urgencia']
+			];
+
+			if (empty($dados['km_veiculo']) || empty($dados['tipo_revisao']) || empty($dados['descricao_problema'])) {
+				FlashMessage::set('Preencha todos os campos obrigatórios.', 'danger');
+				header('Location: ' . BASE_URL . '/mobile/apontarRevisao');
+				exit();
+			}
+
+			if ($this->revisaoDAO->create($dados)) {
+				FlashMessage::set('Relatório de revisão enviado com sucesso!', 'info');
+			} else {
+				FlashMessage::set('Erro ao enviar relatório de revisão.', 'danger');
+			}
+			header('Location: ' . BASE_URL . '/mobile/home');
+			exit();
+		}
 	}
 }

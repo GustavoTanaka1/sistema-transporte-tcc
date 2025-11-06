@@ -43,6 +43,17 @@ require_once PROJECT_ROOT . '/app/core/FlashMessage.php';
 				</li>
 				<li class="nav-item dropdown">
 					<a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+						Apontamentos
+					</a>
+					<ul class="dropdown-menu">
+						<li><a class="dropdown-item" href="<?= BASE_URL ?>/aptParada">Listar Paradas</a></li>
+						<li><a class="dropdown-item" href="<?= BASE_URL ?>/aptAbastecimento">Listar Abastecimentos</a></li>
+						<li><a class="dropdown-item" href="<?= BASE_URL ?>/rota">Listar Rotas/Entregas</a></li>
+						<li><a class="dropdown-item" href="<?= BASE_URL ?>/revisao">Listar Revisões</a></li>
+					</ul>
+				</li>
+				<li class="nav-item dropdown">
+					<a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
 						Cadastros
 					</a>
 					<ul class="dropdown-menu">

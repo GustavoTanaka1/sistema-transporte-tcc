@@ -42,7 +42,7 @@ require_once 'partials/header.php';
 					<th>Início</th>
 					<th>Fim</th>
 					<th>Duração</th>
-					<th class="text-end">Ações</th>
+					<th>Detalhes</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -64,10 +64,20 @@ require_once 'partials/header.php';
 								}
 								?>
 							</td>
-							<td class="text-end">
-								<button class="btn btn-sm btn-outline-info" title="Ver Detalhes do Apontamento">
-									<i class="bi bi-search"></i>
-								</button>
+							<td>
+								<?php if ($apontamento['tipo_apontamento_nome'] == 'Viagem Programada'): ?>
+									<strong>Viagem:</strong> <?= htmlspecialchars($apontamento['detalhes']['titulo'] ?? 'N/A') ?>
+								
+								<?php elseif ($apontamento['tipo_apontamento_nome'] == 'Parada'): ?>
+									<strong>Motivo:</strong> <?= htmlspecialchars($apontamento['detalhes']['tipo_parada_nome'] ?? 'N/A') ?>
+									
+								<?php elseif ($apontamento['tipo_apontamento_nome'] == 'Abastecimento'): ?>
+									<strong>L:</strong> <?= htmlspecialchars($apontamento['detalhes']['litros'] ?? '0') ?> | 
+									<strong>R$:</strong> <?= htmlspecialchars($apontamento['detalhes']['valor'] ?? '0') ?> |
+									<strong>KM:</strong> <?= htmlspecialchars($apontamento['detalhes']['km'] ?? '0') ?>
+								<?php else: ?>
+									---
+								<?php endif; ?>
 							</td>
 						</tr>
 					<?php endforeach; ?>
