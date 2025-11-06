@@ -29,4 +29,11 @@ class RotaDAO {
 		$stmt = $this->pdo->query($sql);
 		return $stmt->fetchAll();
 	}
+	
+	public function getAllByBoletimId($boletimId) {
+		$sql = "SELECT * FROM rotas WHERE boletim_id = :boletimId ORDER BY data_registro ASC";
+		$stmt = $this->pdo->prepare($sql);
+		$stmt->execute(['boletimId' => $boletimId]);
+		return $stmt->fetchAll();
+	}
 }

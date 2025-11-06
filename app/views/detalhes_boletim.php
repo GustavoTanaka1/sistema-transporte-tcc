@@ -57,6 +57,9 @@ require_once 'partials/header.php';
 								if (!empty($apontamento['hora_fim'])) {
 									$inicio = new DateTime($apontamento['hora_inicio']);
 									$fim = new DateTime($apontamento['hora_fim']);
+									if ($fim < $inicio) {
+										$fim->add(new DateInterval('P1D'));
+									}
 									$duracao = $inicio->diff($fim);
 									echo $duracao->format('%H:%I:%S');
 								} else {

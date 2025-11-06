@@ -32,8 +32,8 @@ require_once 'partials/header.php';
 							</span>
 						</td>
 						<td class="text-end">
-							<a href="<?= BASE_URL ?>/boletim/detalhes/<?= $boletim['id'] ?>" class="btn btn-sm btn-outline-primary" title="Ver Detalhes">
-								<i class="bi bi-eye-fill"></i>
+							<a href="<?= BASE_URL ?>/relatorio/boletim/<?= $boletim['id'] ?>" class="btn btn-sm btn-outline-primary" title="Ver Relatório Detalhado">
+								<i class="bi bi-file-earmark-text-fill"></i>
 							</a>
 						</td>
 					</tr>

@@ -30,4 +30,17 @@ class AptAbastecimentoDAO {
 		$stmt = $this->pdo->query($sql);
 		return $stmt->fetchAll();
 	}
+
+	public function getAllByBoletimId($boletimId) {
+		$sql = "SELECT 
+					ap_abs.*, 
+					a.hora_inicio 
+				FROM apontamentos_abastecimento ap_abs
+				JOIN apontamentos a ON a.apontamento_especifico_id = ap_abs.id AND a.tipo_apontamento_id = (SELECT id FROM tipo_apontamentos WHERE nome = 'Abastecimento')
+				WHERE a.boletim_id = :boletimId
+				ORDER BY a.hora_inicio ASC";
+		$stmt = $this->pdo->prepare($sql);
+		$stmt->execute(['boletimId' => $boletimId]);
+		return $stmt->fetchAll();
+	}
 }

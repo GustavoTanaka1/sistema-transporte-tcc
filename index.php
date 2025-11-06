@@ -1,5 +1,5 @@
 <?php
-
+date_default_timezone_set('America/Sao_Paulo');
 session_start();
 require_once 'config.php';
 require_once PROJECT_ROOT . '/app/core/conexao.php';
