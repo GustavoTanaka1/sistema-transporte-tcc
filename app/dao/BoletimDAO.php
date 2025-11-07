@@ -20,6 +20,20 @@ class BoletimDAO {
 		return $stmt->fetchAll();
 	}
 
+	public function getAllAbertos() {
+		$sql = "SELECT 
+					b.*,
+					f.nome as funcionario_nome,
+					v.placa as veiculo_placa
+				FROM boletins b
+				JOIN funcionarios f ON b.funcionario_id = f.id
+				JOIN veiculos v ON b.veiculo_id = v.id
+				WHERE b.status = 'Aberto'
+				ORDER BY f.nome ASC";
+		$stmt = $this->pdo->query($sql);
+		return $stmt->fetchAll();
+	}
+
 	public function getById($id) {
 		$sql = "SELECT 
 					b.*,
