@@ -7,8 +7,8 @@ require_once PROJECT_ROOT . '/app/dao/BoletimDAO.php';
 require_once PROJECT_ROOT . '/app/dao/TipoParadaDAO.php';
 require_once PROJECT_ROOT . '/app/dao/ApontamentoDAO.php';
 require_once PROJECT_ROOT . '/app/dao/ViagemProgramadaDAO.php';
-require_once PROJECT_ROOT . '/app/dao/RevisaoDAO.php';
 require_once PROJECT_ROOT . '/app/dao/RotaDAO.php';
+require_once PROJECT_ROOT . '/app/dao/RevisaoDAO.php';
 require_once PROJECT_ROOT . '/app/core/FlashMessage.php';
 
 class MobileController {
@@ -61,21 +61,18 @@ class MobileController {
 	}
 
 	public function index() {
-		if (!isset($_SESSION['usuario_id']) || $_SESSION['tipo_usuario'] != 'colaborador') {
-			require_once PROJECT_ROOT . '/app/views/mobile/login.php';
-		} else {
+		if (isset($_SESSION['usuario_id']) && isset($_SESSION['tipo_usuario']) && $_SESSION['tipo_usuario'] == 'colaborador') {
 			header('Location: ' . BASE_URL . '/mobile/home');
 			exit();
+		} else {
+			require_once PROJECT_ROOT . '/app/views/mobile/login.php';
 		}
 	}
-
+	
 	public function autenticar() {
 		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 			$usuario = $this->usuarioDAO->autenticar($_POST['login'], $_POST['senha']);
-			if (is_array($usuario) && 
-				isset($usuario['tipo_usuario']) && $usuario['tipo_usuario'] == 'colaborador' && 
-				!empty($usuario['funcionario_id'])) {
-				
+			if ($usuario && $usuario['tipo_usuario'] == 'colaborador' && !empty($usuario['funcionario_id'])) {
 				$_SESSION['usuario_id'] = $usuario['id'];
 				$_SESSION['usuario_login'] = $usuario['login'];
 				$_SESSION['tipo_usuario'] = $usuario['tipo_usuario'];
@@ -171,7 +168,7 @@ class MobileController {
 
 			if (empty($tipoParadaId)) {
 				FlashMessage::set('Selecione o motivo da parada.', 'danger');
-				header('Location: '. BASE_URL . '/mobile/apontarParada');
+				header('Location: ' . BASE_URL . '/mobile/apontarParada');
 				exit();
 			}
 
@@ -224,7 +221,7 @@ class MobileController {
 
 			if (empty($local) || empty($litros) || !is_numeric($litros) || empty($valor) || !is_numeric($valor) || empty($km) || !is_numeric($km)) {
 				FlashMessage::set('Preencha todos os campos do abastecimento corretamente.', 'danger');
-				header('Location: '. BASE_URL . '/mobile/apontarAbastecimento');
+				header('Location: ' . BASE_URL . '/mobile/apontarAbastecimento');
 				exit();
 			}
 
