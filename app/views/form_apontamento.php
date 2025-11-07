@@ -8,7 +8,7 @@ unset($_SESSION['form_data']);
 
 <div class="card">
 	<div class="card-header">
-		 <?= isset($apontamento) ? 'Editar Apontamento' : 'Lançar Novo Apontamento' ?>
+		<?= isset($apontamento) ? 'Editar Apontamento' : 'Lançar Novo Apontamento' ?>
 	</div>
 	<div class="card-body">
 		<form action="<?= isset($apontamento) ? BASE_URL . '/apontamento/update/' . $apontamento['id'] : BASE_URL . '/apontamento/store' ?>" method="POST">
@@ -33,7 +33,7 @@ unset($_SESSION['form_data']);
 					<select id="veiculo_id" name="veiculo_id" class="form-select" required>
 						<option value="">Selecione um veículo...</option>
 						<?php foreach ($veiculos as $veiculo): ?>
-							 <?php if ($veiculo['status'] == 'ativo'): ?>
+							<?php if ($veiculo['status'] == 'ativo'): ?>
 								<option value="<?= $veiculo['id'] ?>" <?= (($formData['veiculo_id'] ?? $apontamento['veiculo_id'] ?? '') == $veiculo['id']) ? 'selected' : '' ?>>
 									<?= htmlspecialchars($veiculo['placa'] . ' - ' . $veiculo['modelo']) ?>
 								</option>

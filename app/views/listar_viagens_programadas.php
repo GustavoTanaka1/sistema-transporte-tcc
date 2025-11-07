@@ -28,6 +28,14 @@ require_once 'partials/header.php';
 			</thead>
 			<tbody>
 				<?php foreach ($viagens as $viagem): ?>
+					<?php
+						$status = htmlspecialchars($viagem['status']);
+						$badgeClass = 'bg-secondary';
+						if ($status == 'Programada') $badgeClass = 'bg-info text-dark';
+						if ($status == 'Iniciada') $badgeClass = 'bg-success';
+						if ($status == 'Concluída') $badgeClass = 'bg-primary';
+						if ($status == 'Cancelada') $badgeClass = 'bg-danger';
+					?>
 					<tr>
 						<td><?= $viagem['id'] ?></td>
 						<td><?= htmlspecialchars($viagem['titulo']) ?></td>
@@ -35,7 +43,7 @@ require_once 'partials/header.php';
 						<td><?= htmlspecialchars($viagem['veiculo_placa']) ?></td>
 						<td><?= date('d/m/Y H:i', strtotime($viagem['data_prevista_inicio'])) ?></td>
 						<td>
-							<span class="badge bg-info"><?= htmlspecialchars($viagem['status']) ?></span>
+							<span class="badge <?= $badgeClass ?>"><?= $status ?></span>
 						</td>
 						<td class="text-end">
 							<a href="<?= BASE_URL ?>/viagemProgramada/edit/<?= $viagem['id'] ?>" class="btn btn-sm btn-outline-warning" title="Editar">

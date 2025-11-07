@@ -8,13 +8,29 @@
 	<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
 	<link rel="stylesheet" href="<?= BASE_URL ?>/public/css/custom.css">
 	<link rel="stylesheet" href="<?= BASE_URL ?>/public/css/mobile.css">
+	
+	<style>
+		.login-container {
+			min-height: 100vh;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			background-color: var(--content-bg);
+			padding-top: 0;
+			padding-bottom: 0;
+		}
+		.login-card {
+			max-width: 450px;
+			width: 100%;
+		}
+	</style>
 </head>
 <body class="login-container">
 	<div class="card login-card shadow-lg">
 		<div class="card-body p-4 p-md-5">
 			<div class="text-center mb-4">
-				<i class="bi bi-truck-front-fill display-4 text-primary"></i>
-				<h2 class="mt-2">Portal do Motorista</h2>
+				<img src="<?= BASE_URL ?>/public/img/logo.png" alt="Logo Tanaka Transportes" style="max-width: 150px; border-radius: 8px;">
+				<h2 class="mt-3">Portal do Motorista</h2>
 			</div>
 
 			<?php FlashMessage::display(); ?>

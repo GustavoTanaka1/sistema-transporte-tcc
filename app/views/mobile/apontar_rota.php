@@ -5,7 +5,10 @@ require_once PROJECT_ROOT . '/app/views/partials/mobile_header.php';
 
 <?php FlashMessage::display(); ?>
 
-<div class="card">
+<div class="card shadow-sm">
+	<div class="card-header">
+		<h5 class="mb-0">Registrar Ponto de Rota/Entrega</h5>
+	</div>
 	<div class="card-body">
 		<form action="<?= BASE_URL ?>/mobile/salvarRota" method="POST">
 			<input type="hidden" name="apontamento_id" value="<?= $apontamentoViagemId ?>"> 
@@ -33,9 +36,9 @@ require_once PROJECT_ROOT . '/app/views/partials/mobile_header.php';
 				<textarea id="observacao" name="observacao" class="form-control" rows="3" placeholder="Detalhes sobre a entrega, coleta ou ponto..."></textarea>
 			</div>
 
-			<div class="d-grid gap-2">
+			<div class="d-grid gap-2 mt-4">
 				<button type="submit" class="btn btn-primary btn-full-width">Registrar Ponto</button>
-				<a href="<?= BASE_URL ?>/mobile/home" class="btn btn-secondary">Cancelar</a>
+				<a href="<?= BASE_URL ?>/mobile/home" class="btn btn-secondary btn-full-width">Cancelar</a>
 			</div>
 		</form>
 	</div>

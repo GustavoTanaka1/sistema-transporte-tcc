@@ -136,35 +136,6 @@ class RelatorioController {
 		require_once PROJECT_ROOT . '/app/views/relatorio_paradas.php';
 	}
 
-	public function revisoes() {
-		$veiculos = $this->veiculoDAO->getAll();
-		$resultados = null;
-		$filtroInfo = null;
-
-		if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['filtro_revisoes'])) {
-			$dataInicio = $_POST['data_inicio'];
-			$dataFim = $_POST['data_fim'];
-			$veiculoId = $_POST['veiculo_id'] ?: null;
-			$urgencia = $_POST['urgencia'] ?: null;
-
-			$veiculoNome = "Todos os Veículos";
-			if ($veiculoId) {
-				$veic = $this->veiculoDAO->getById($veiculoId);
-				if ($veic) $veiculoNome = $veic['placa'] . ' - ' . $veic['modelo'];
-			}
-			$filtroInfo = [
-				'dataInicio' => $dataInicio,
-				'dataFim' => $dataFim,
-				'veiculoNome' => $veiculoNome,
-				'urgencia' => $urgencia ?: 'Todas'
-			];
-
-			$resultados = $this->relatorioDAO->getRelatorioRevisoes($dataInicio, $dataFim, $veiculoId, $urgencia);
-		}
-
-		require_once PROJECT_ROOT . '/app/views/relatorio_revisoes.php';
-	}
-
 	public function boletim($id = null) {
 		$todosBoletins = $this->boletimDAO->getAll();
 		$boletimIdSelecionado = $id;

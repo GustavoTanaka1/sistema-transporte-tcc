@@ -13,6 +13,18 @@ class FuncionarioDAO {
 		return $stmt->fetchAll();
 	}
 
+	public function getAllAtivos() {
+		$sql = "SELECT * FROM funcionarios WHERE status = 'ativo' ORDER BY nome ASC";
+		$stmt = $this->pdo->query($sql);
+		return $stmt->fetchAll();
+	}
+
+	public function countAllAtivos() {
+		$sql = "SELECT COUNT(id) FROM funcionarios WHERE status = 'ativo'";
+		$stmt = $this->pdo->query($sql);
+		return $stmt->fetchColumn();
+	}
+
 	public function getById($id) {
 		$sql = "SELECT * FROM funcionarios WHERE id = :id";
 		$stmt = $this->pdo->prepare($sql);

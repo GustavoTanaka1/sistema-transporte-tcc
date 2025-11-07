@@ -72,7 +72,10 @@ class MobileController {
 	public function autenticar() {
 		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 			$usuario = $this->usuarioDAO->autenticar($_POST['login'], $_POST['senha']);
-			if ($usuario && $usuario['tipo_usuario'] == 'colaborador' && !empty($usuario['funcionario_id'])) {
+			if (is_array($usuario) && 
+				isset($usuario['tipo_usuario']) && $usuario['tipo_usuario'] == 'colaborador' && 
+				!empty($usuario['funcionario_id'])) {
+				
 				$_SESSION['usuario_id'] = $usuario['id'];
 				$_SESSION['usuario_login'] = $usuario['login'];
 				$_SESSION['tipo_usuario'] = $usuario['tipo_usuario'];

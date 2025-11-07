@@ -5,7 +5,10 @@ require_once PROJECT_ROOT . '/app/views/partials/mobile_header.php';
 
 <?php FlashMessage::display(); ?>
 
-<div class="card">
+<div class="card shadow-sm">
+	<div class="card-header">
+		<h5 class="mb-0">Registrar Abastecimento</h5>
+	</div>
 	<div class="card-body">
 		<form action="<?= BASE_URL ?>/mobile/salvarAbastecimento" method="POST">
 			<div class="mb-3">
@@ -26,9 +29,9 @@ require_once PROJECT_ROOT . '/app/views/partials/mobile_header.php';
 					<input type="number" step="0.01" id="valor" name="valor" class="form-control" placeholder="Ex: 250.00" required>
 				</div>
 			</div>
-			<div class="d-grid gap-2">
+			<div class="d-grid gap-2 mt-3">
 				<button type="submit" class="btn btn-primary btn-full-width">Registrar Abastecimento</button>
-				<a href="<?= BASE_URL ?>/mobile/home" class="btn btn-secondary">Cancelar</a>
+				<a href="<?= BASE_URL ?>/mobile/home" class="btn btn-secondary btn-full-width">Cancelar</a>
 			</div>
 		</form>
 	</div>

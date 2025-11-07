@@ -21,6 +21,12 @@ class BoletimDAO {
 	}
 
 	public function getAllAbertos() {
+		$sql = "SELECT * FROM boletins WHERE status = 'Aberto'";
+		$stmt = $this->pdo->query($sql);
+		return $stmt->fetchAll();
+	}
+
+	public function findLatestDoDiaPorFuncionario($funcionarioId) {
 		$sql = "SELECT 
 					b.*,
 					f.nome as funcionario_nome,
@@ -28,10 +34,14 @@ class BoletimDAO {
 				FROM boletins b
 				JOIN funcionarios f ON b.funcionario_id = f.id
 				JOIN veiculos v ON b.veiculo_id = v.id
-				WHERE b.status = 'Aberto'
-				ORDER BY f.nome ASC";
-		$stmt = $this->pdo->query($sql);
-		return $stmt->fetchAll();
+				WHERE b.funcionario_id = :funcionarioId AND b.data_abertura = CURDATE()
+				ORDER BY 
+					b.status ASC,
+					b.id DESC
+				LIMIT 1";
+		$stmt = $this->pdo->prepare($sql);
+		$stmt->execute(['funcionarioId' => $funcionarioId]);
+		return $stmt->fetch();
 	}
 
 	public function getById($id) {

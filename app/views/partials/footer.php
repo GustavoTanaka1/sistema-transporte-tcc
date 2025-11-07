@@ -7,6 +7,12 @@
 
 <script>
 	document.addEventListener('DOMContentLoaded', function() {
+		const toastElList = document.querySelectorAll('.toast');
+		const toastList = [...toastElList].map(toastEl => {
+			const toast = new bootstrap.Toast(toastEl);
+			toast.show();
+		});
+
 		const timeElement = document.getElementById('current-time');
 		const dateElement = document.getElementById('current-date');
 		function updateClock() {
@@ -27,7 +33,7 @@
 				},
 				columnDefs: [
 					{ 
-						targets: -1,
+						targets: [0, -1],
 						orderable: false,
 						searchable: false
 					}

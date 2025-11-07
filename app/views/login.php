@@ -3,11 +3,11 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Login - Sistema de Transporte</title>
+	<title>Login - Tanaka Transportes</title>
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 	<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
 	<link rel="stylesheet" href="<?= BASE_URL ?>/public/css/custom.css">
-
+	
 	<style>
 		.login-container {
 			min-height: 100vh;
@@ -27,9 +27,9 @@
 		<div class="card login-card shadow-lg">
 			<div class="card-body p-4 p-md-5">
 				<div class="text-center mb-4">
-					<i class="bi bi-truck display-4 text-primary"></i>
-					<h2 class="mt-2">Gestão de Transporte</h2>
-					<p class="text-muted">Por favor, entre com suas credenciais</p>
+					<img src="<?= BASE_URL ?>/public/img/logo.png" alt="Logo Tanaka Transportes" style="max-width: 150px; border-radius: 8px;">
+					<h2 class="mt-3">Painel de Gestão</h2>
+					<p class="text-muted">Acesso restrito ao gestor</p>
 				</div>
 
 				<form action="<?= BASE_URL ?>/login/autenticar" method="POST">
@@ -56,7 +56,6 @@
 			</div>
 		</div>
 	</div>
-
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

@@ -34,6 +34,16 @@ class ApontamentoDAO {
 		return $stmt->fetch();
 	}
 
+	public function countAtividadesEmAndamentoPorTipo($tipoNome) {
+		$sql = "SELECT COUNT(a.id)
+				FROM apontamentos a
+				JOIN tipo_apontamentos ta ON a.tipo_apontamento_id = ta.id
+				WHERE a.status = 'Em andamento' AND ta.nome = :tipoNome";
+		$stmt = $this->pdo->prepare($sql);
+		$stmt->execute(['tipoNome' => $tipoNome]);
+		return (int)$stmt->fetchColumn();
+	}
+
 	public function finalizeApontamento($apontamentoId) {
 		$sql = "UPDATE apontamentos 
 				SET hora_fim = CURTIME(), status = 'Finalizado' 

@@ -5,12 +5,15 @@ require_once PROJECT_ROOT . '/app/views/partials/mobile_header.php';
 
 <?php FlashMessage::display(); ?>
 
-<div class="card">
+<div class="card shadow-sm">
+	<div class="card-header">
+		<h5 class="mb-0">Registrar Parada</h5>
+	</div>
 	<div class="card-body">
 		<form action="<?= BASE_URL ?>/mobile/salvarParada" method="POST">
 			<div class="mb-3">
 				<label for="tipo_parada_id" class="form-label">Motivo da Parada:</label>
-				<select id="tipo_parada_id" name="tipo_parada_id" class="form-select" required>
+				<select id="tipo_parada_id" name="tipo_parada_id" class="form-select form-select-lg" required>
 					<option value="">Selecione um motivo...</option>
 					<?php foreach ($tiposParada as $tipo): ?>
 						<option value="<?= $tipo['id'] ?>">
@@ -23,9 +26,9 @@ require_once PROJECT_ROOT . '/app/views/partials/mobile_header.php';
 				<label for="observacao" class="form-label">Observação (Opcional):</label>
 				<textarea id="observacao" name="observacao" class="form-control" rows="3" placeholder="Detalhes adicionais sobre a parada..."></textarea>
 			</div>
-			<div class="d-grid gap-2">
+			<div class="d-grid gap-2 mt-4">
 				<button type="submit" class="btn btn-primary btn-full-width">Iniciar Parada</button>
-				<a href="<?= BASE_URL ?>/mobile/home" class="btn btn-secondary">Cancelar</a>
+				<a href="<?= BASE_URL ?>/mobile/home" class="btn btn-secondary btn-full-width">Cancelar</a>
 			</div>
 		</form>
 	</div>
