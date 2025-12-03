@@ -23,7 +23,16 @@ class TipoApontamentoDAO {
 	public function getApontamentoDetailTables() {
 		$sql = "SHOW TABLES LIKE 'apontamentos_%'";
 		$stmt = $this->pdo->query($sql);
-		return $stmt->fetchAll(PDO::FETCH_COLUMN);
+		$tabelas = $stmt->fetchAll(PDO::FETCH_COLUMN);
+
+		$sqlRotas = "SHOW TABLES LIKE 'rotas'";
+		$stmtRotas = $this->pdo->query($sqlRotas);
+		if ($stmtRotas->rowCount() > 0) {
+			$tabelas[] = 'rotas';
+		}
+
+		sort($tabelas);
+		return $tabelas;
 	}
 
 	public function create($dados) {
