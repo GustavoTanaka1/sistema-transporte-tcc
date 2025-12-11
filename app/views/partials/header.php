@@ -34,7 +34,7 @@ require_once PROJECT_ROOT . '/app/core/FlashMessage.php';
 		<div class="collapse navbar-collapse" id="main-nav">
 			<ul class="navbar-nav me-auto mb-2 mb-lg-0">
 				<li class="nav-item">
-					<a class="nav-link" href="<?= BASE_URL ?>/dashboard">Monitoramento</a>
+					<a class="nav-link" href="<?= BASE_URL ?>/dashboard">Dashboard</a>
 				</li>
 				<li class="nav-item">
 					<a class="nav-link" href="<?= BASE_URL ?>/boletim">Boletins</a>
